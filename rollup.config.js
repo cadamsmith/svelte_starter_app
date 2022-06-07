@@ -1,5 +1,6 @@
 import svelte from 'rollup-plugin-svelte';
 import resolve from '@rollup/plugin-node-resolve';
+import livereload from 'rollup-plugin-livereload';
 
 function serve() {
     // keep a reference to a spawned server process
@@ -49,5 +50,6 @@ export default {
         // tells any third-party plugins we're building for the browser
         resolve({ browser: true }),
         serve(),
+        livereload('public'),
     ],
 }
