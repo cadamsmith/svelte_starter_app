@@ -47,6 +47,10 @@ export default {
             // tells the svelte plugin where our svelte files are located
             include: 'src/**/*.svelte',
         }),
+        css({
+            // any component CSS is combined into a single bundled css file - better for performance
+            output: 'bundle.css'
+        }),
         // tells any third-party plugins we're building for the browser
         resolve({ browser: true }),
         serve(),
