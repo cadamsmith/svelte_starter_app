@@ -1,7 +1,13 @@
 import svelte from 'rollup-plugin-svelte';
+import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import css from 'rollup-plugin-css-only';
+import { terser } from 'rollup-plugin-terser';
+import sveltePreprocess from 'svelte-preprocess';
+import typescript from '@rollup/plugin-typescript';
 import livereload from 'rollup-plugin-livereload';
+
+const production = !process.env.ROLLUP_WATCH;
 
 function serve() {
     // keep a reference to a spawned server process
@@ -34,7 +40,7 @@ function serve() {
 
 export default {
     // the entry point for the bundle
-    input: 'src/main.js',
+    input: 'src/main.ts',
     output: {
         // the destination for our bundled JavaScript
         file: 'public/build/bundle.js',
@@ -42,9 +48,17 @@ export default {
         format: 'iife',
         // the IIFE return value will be assigned into a variable called `app`
         name: 'app',
+        sourcemap: !production
     },
     plugins: [
         svelte({
+            preprocess: sveltePreprocess({
+                sourceMap: !production
+            }),
+            compilerOptions: {
+                // enable run-time checks when not in production
+                dev: !production
+            },
             // tells the svelte plugin where our svelte files are located
             include: 'src/**/*.svelte',
         }),
@@ -53,8 +67,26 @@ export default {
             output: 'bundle.css'
         }),
         // tells any third-party plugins we're building for the browser
-        resolve({ browser: true }),
-        serve(),
-        livereload('public'),
+        resolve({
+            browser: true,
+            dedupe: ['svelte']
+        }),
+        commonjs(),
+        typescript({
+            sourceMap: !production,
+            inlineSources: !production,
+        }),
+
+        // in dev mode, call `npm run start` once the bundle has been generated
+        !production && serve(),
+        
+        // in dev mode, watch `public` directory and refresh browser on changes
+        !production && livereload('public'),
+        
+        // in production mode (npm run build), minify our JS/TS code
+        production && terser(),
     ],
+    watch: {
+        clearScreen: false
+    }
 }
