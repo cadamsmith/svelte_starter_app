@@ -1,6 +1,6 @@
 # Svelte Starter App
 
-My personal Svelte app template, with TypeScript, Rollup, and Sirv CLI. Supports live reload out of the box. Draws heavily from the starter app described in the blog post https://typeofnan.dev/how-to-set-up-a-svelte-app-with-rollup/ as well as the official svelte template at https://github.com/sveltejs/template. I keep changing my mind about my templates, so expect this to change often and maybe veer away from these sources.
+My personal Svelte app template, with TypeScript, Rollup, and Sirv CLI. Supports live reload out of the box. Draws heavily from the starter app described in the blog post https://typeofnan.dev/how-to-set-up-a-svelte-app-with-rollup/ as well as the official svelte template at https://github.com/sveltejs/template. I keep changing my mind about my templates, so expect this to change often and maybe veer away from these sources as I learn more about these technologies.
 
 
 ## Initialization
